@@ -22,6 +22,12 @@ def get_db():
     return g.db
 
 
+def get_cursor():
+    db = get_db()
+
+    return db.cursor()
+
+
 def close_db(e=None):
     db = g.pop('db', None)
 
@@ -39,7 +45,7 @@ def init_db():
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-    """Clear the existing data and create new tables."""
+    # Clear the existing data and create new tables.
     init_db()
     click.echo('Initialized the database.')
 
