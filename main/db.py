@@ -3,19 +3,20 @@ import pymysql
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
-from main.auth import db_info
+from main.config import db_info
+
 
 def get_db():
     if 'db' not in g:
         g.db = pymysql.connect(
             host=db_info['host'],
             port=db_info['port'],
-            user=db_info['uer'],
+            user=db_info['user'],
             password=db_info['password'],
             db=db_info['database'],
             charset=db_info['charset'],
             cursorclass=pymysql.cursors.DictCursor,
-            autocommit=False
+            autocommit=False,
         )
 
     return g.db
@@ -26,6 +27,7 @@ def close_db(e=None):
 
     if db is not None:
         db.close()
+
 
 def init_db():
     db = get_db()
@@ -41,8 +43,7 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
+
 def init_app(app):
-  app.teardown_appcontext(close_db)
-  app.cli.add_command(init_db_command)
-
-
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)

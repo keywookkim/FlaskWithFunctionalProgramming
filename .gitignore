@@ -217,4 +217,4 @@ zsdoc/data
 # End of https://www.toptal.com/developers/gitignore/api/python,git,zsh,macos
 
 # 기타
-main/auth.py
+main/config.py
